@@ -57,9 +57,8 @@ fun DataPerpanjangMotorScreen(navController: NavHostController) {
                 ) {
                 }
             }
-        } else {
-            Text("Data Kosong.")
         }
+
 
         Spacer(modifier = Modifier.height(16.dp))
 
