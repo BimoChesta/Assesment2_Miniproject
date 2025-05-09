@@ -14,13 +14,7 @@ private val Context.dataStore by preferencesDataStore(name = "day_data_store")
 
 class DataStoreManager(private val context: Context) {
 
-    private val saldoKey = intPreferencesKey("saldo")
     private val paymentsKey = stringPreferencesKey("payments")
-
-    suspend fun loadBalance(): Int {
-        val preferences = context.dataStore.data.first()
-        return preferences[saldoKey] ?: 0
-    }
 
     suspend fun savePayment(pembayaran: Pembayaran) {
         context.dataStore.edit { preferences ->

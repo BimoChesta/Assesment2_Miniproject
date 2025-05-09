@@ -2,14 +2,7 @@ package com.bimo0064.miniproject2.Screens
 
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
-import androidx.compose.foundation.layout.Arrangement
-import androidx.compose.foundation.layout.Column
-import androidx.compose.foundation.layout.Row
-import androidx.compose.foundation.layout.Spacer
-import androidx.compose.foundation.layout.fillMaxSize
-import androidx.compose.foundation.layout.fillMaxWidth
-import androidx.compose.foundation.layout.height
-import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.foundation.verticalScroll
@@ -26,7 +19,6 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.bimo0064.miniproject2.R
 
-
 @Composable
 fun InformasiScreen() {
     Column(
@@ -38,7 +30,7 @@ fun InformasiScreen() {
     ) {
         Image(
             painter = painterResource(id = R.drawable.logobiasa),
-            contentDescription = "Logo Kost",
+            contentDescription = "Logo Sewa Motor",
             contentScale = ContentScale.Crop,
             modifier = Modifier
                 .fillMaxWidth()
@@ -55,11 +47,13 @@ fun InformasiScreen() {
         ) {
             Column(modifier = Modifier.weight(1f)) {
                 InfoCard(
-                    title = "Alamat Kost",
+                    title = "Fasilitas Sewa Motor",
                     content = """
-                        Wisma Kania, Gang Amdasari, RT.5/RW.1,
-                        Kampung Managa Dua, Dayeuhkolot (Belakang Mixue Sukapura)
-                        DAYEUHKOLOT, KAB.BANDUNG, JAWA BARAT, ID 40257
+                        - Motor dalam kondisi baik dan terawat.
+                        - Helm dan jas hujan disediakan.
+                        - Penggunaan bahan bakar yang efisien.
+                        - Layanan antar-jemput motor.
+                        - Dukungan 24 jam untuk masalah teknis.
                     """.trimIndent()
                 )
 
@@ -68,27 +62,12 @@ fun InformasiScreen() {
 
             Column(modifier = Modifier.weight(1f)) {
                 InfoCard(
-                    title = "Fasilitas & Kewajiban",
+                    title = "Kewajiban Penyewa",
                     content = """
-                        Fasilitas Kamar:
-                        - Kasur
-                        - Headboard kasur
-                        - Bantal & Guling
-                        - Meja
-                        - Lemari
-                        - Kamar mandi dalam
-                        - Ember & Gayung
-
-                        Fasilitas Umum:
-                        - Dapur
-                        - Alat masak
-                        - Kulkas
-                        - Rooftop
-                        - Jemuran pakaian
-                        - Ruang santai
-
-                        Kewajiban:
-                        - Membayar listrik setiap bulan
+                        - Menjaga kondisi motor selama masa sewa.
+                        - Mengembalikan motor tepat waktu.
+                        - Membayar denda jika terjadi pelanggaran syarat sewa.
+                        - Tidak mengubah kondisi motor tanpa izin.
                     """.trimIndent()
                 )
             }

@@ -2,14 +2,7 @@ package com.bimo0064.miniproject2.Screens
 
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
-import androidx.compose.foundation.layout.Arrangement
-import androidx.compose.foundation.layout.Column
-import androidx.compose.foundation.layout.Row
-import androidx.compose.foundation.layout.Spacer
-import androidx.compose.foundation.layout.fillMaxSize
-import androidx.compose.foundation.layout.fillMaxWidth
-import androidx.compose.foundation.layout.height
-import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.foundation.verticalScroll
@@ -26,7 +19,6 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.bimo0064.miniproject2.R
 
-
 @Composable
 fun AturanScreen() {
     Column(
@@ -38,7 +30,7 @@ fun AturanScreen() {
     ) {
         Image(
             painter = painterResource(id = R.drawable.logobiasa),
-            contentDescription = "Logo Kost",
+            contentDescription = "Logo Sewa Motor",
             contentScale = ContentScale.Crop,
             modifier = Modifier
                 .fillMaxWidth()
@@ -55,13 +47,13 @@ fun AturanScreen() {
             horizontalArrangement = Arrangement.spacedBy(16.dp)
         ) {
             Column(modifier = Modifier.weight(1f)) {
-                InfoCardAturan(
-                    title = "Peraturan Kost",
+                InfoCardSewaMotor(
+                    title = "Syarat Sewa Motor",
                     content = """
-                        1. Setiap keluar masuk harap kunci kembali pagar dengan gembok.
-                        2. Tidak membawa pasangan tanpa izin.
-                        3. Bersihkan dapur setelah pakai.
-                        4. Buang sampah pada tempatnya.
+                        1. Menyediakan KTP asli dan fotokopi.
+                        2. Melakukan pembayaran sesuai tarif sewa.
+                        3. Mengembalikan motor tepat waktu.
+                        4. Menjaga kebersihan dan kondisi motor.
                     """.trimIndent()
                 )
                 Spacer(modifier = Modifier.height(16.dp))
@@ -71,7 +63,7 @@ fun AturanScreen() {
 }
 
 @Composable
-fun InfoCardAturan(title: String, content: String) {
+fun InfoCardSewaMotor(title: String, content: String) {
     Column(
         modifier = Modifier
             .fillMaxWidth()
