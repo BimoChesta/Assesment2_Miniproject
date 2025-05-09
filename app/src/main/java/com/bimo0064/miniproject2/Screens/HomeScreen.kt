@@ -20,6 +20,7 @@ import androidx.compose.ui.unit.dp
 import androidx.navigation.NavHostController
 import com.bimo0064.miniproject2.R
 import com.bimo0064.miniproject2.data.DataStoreManager
+import com.bimo0064.miniproject2.model.DataPerpanjangMotor
 import com.bimo0064.miniproject2.model.User
 
 @Composable
@@ -28,6 +29,15 @@ fun HomeScreen(
     dataStoreManager: DataStoreManager
 ) {
     var user by remember { mutableStateOf<User?>(null) }
+    val data = navController.currentBackStackEntry
+        ?.savedStateHandle
+        ?.get<DataPerpanjangMotor>("submittedData")
+
+    if (data != null) {
+        Text("Motor: ${data.name}")
+        Text("Tanggal: ${data.month}")
+    }
+
 
     LaunchedEffect(Unit) {
         user = dataStoreManager.loadUser()
@@ -71,6 +81,7 @@ fun HomeScreen(
                 item { MenuIcon(R.drawable.aturan, "Aturan", navController, "aturan") }
                 item { MenuIcon(R.drawable.perpanjangkost, "Perpanjang Motor", navController, "perpanjangMotor") }
                 item { MenuIcon(R.drawable.home, "Informasi Motor", navController, "informasi") }
+                item { MenuIcon(R.drawable.perpanjangkost, "Riwayat Perpanjang Motor", navController, "DataPerpanjangMotor") }
             }
 
             Column(

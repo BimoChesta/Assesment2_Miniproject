@@ -1,6 +1,7 @@
 package com.bimo0064.miniproject2.Screens
 
 import android.net.Uri
+import android.widget.Toast
 import androidx.activity.compose.rememberLauncherForActivityResult
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.compose.foundation.Image
@@ -17,11 +18,10 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.platform.LocalContext
-import androidx.compose.ui.unit.dp
-import coil.compose.rememberAsyncImagePainter
-import android.widget.Toast
 import androidx.compose.ui.res.painterResource
+import androidx.compose.ui.unit.dp
 import androidx.navigation.NavHostController
+import coil.compose.rememberAsyncImagePainter
 import com.bimo0064.miniproject2.R
 import com.bimo0064.miniproject2.model.DataPerpanjangMotor
 
@@ -32,6 +32,7 @@ fun PerpanjangMotorScreen(navController: NavHostController) {
     var imageUri by remember { mutableStateOf<Uri?>(null) }
 
     val context = LocalContext.current
+
     val imagePickerLauncher = rememberLauncherForActivityResult(
         contract = ActivityResultContracts.GetContent()
     ) { uri: Uri? -> imageUri = uri }
@@ -74,7 +75,6 @@ fun PerpanjangMotorScreen(navController: NavHostController) {
                     }
                 }
             )
-
             DropdownMenu(
                 expanded = expandedMotor,
                 onDismissRequest = { expandedMotor = false }
@@ -96,7 +96,7 @@ fun PerpanjangMotorScreen(navController: NavHostController) {
                 value = selectedTanggal,
                 onValueChange = {},
                 readOnly = true,
-                label = { Text("Pilih Tanggal Perpanjang") },
+                label = { Text("Pilih Hari Perpanjang") },
                 modifier = Modifier.fillMaxWidth(),
                 trailingIcon = {
                     IconButton(onClick = { expandedTanggal = true }) {
@@ -104,7 +104,6 @@ fun PerpanjangMotorScreen(navController: NavHostController) {
                     }
                 }
             )
-
             DropdownMenu(
                 expanded = expandedTanggal,
                 onDismissRequest = { expandedTanggal = false }
@@ -142,7 +141,7 @@ fun PerpanjangMotorScreen(navController: NavHostController) {
                     .background(Color.LightGray),
                 contentAlignment = Alignment.Center
             ) {
-                Text("No image selected")
+                Text("Tidak ada gambar yang dipilih")
             }
         }
 
@@ -153,6 +152,7 @@ fun PerpanjangMotorScreen(navController: NavHostController) {
         Text("Tanggal: $selectedTanggal")
         Text("Gambar: ${imageUri?.lastPathSegment ?: "Belum dipilih"}")
 
+        // Tombol Submit
         Button(onClick = {
             if (imageUri != null) {
                 val data = DataPerpanjangMotor(
@@ -162,18 +162,14 @@ fun PerpanjangMotorScreen(navController: NavHostController) {
                     imageUri = imageUri?.toString()
                 )
 
-                navController.currentBackStackEntry
+                navController.previousBackStackEntry
                     ?.savedStateHandle
                     ?.set("submittedData", data)
 
                 Toast.makeText(context, "Data telah tercatat!", Toast.LENGTH_SHORT).show()
                 navController.navigate("DataPerpanjangMotor")
             } else {
-                Toast.makeText(
-                    context,
-                    "Tolong unggah gambar bukti!",
-                    Toast.LENGTH_SHORT
-                ).show()
+                Toast.makeText(context, "Tolong unggah gambar bukti!", Toast.LENGTH_SHORT).show()
             }
         }) {
             Text("Submit")
