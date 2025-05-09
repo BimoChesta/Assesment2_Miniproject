@@ -25,7 +25,10 @@ import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
 import com.bimo0064.miniproject2.Screens.AturanScreen
+import com.bimo0064.miniproject2.Screens.DataPerpanjangMotorScreen
 import com.bimo0064.miniproject2.Screens.PerpanjangMotorScreen
+import com.bimo0064.miniproject2.Screens.HomeScreen
+import com.bimo0064.miniproject2.Screens.InformasiScreen
 import com.bimo0064.miniproject2.data.DataStoreManager
 import kotlinx.coroutines.launch
 
@@ -87,6 +90,9 @@ fun AppNavGraph(navController: NavHostController, dataStoreManager: DataStoreMan
         }
         composable("perpanjangMotor") {
             PerpanjangMotorScreen(navController)
+        }
+        composable("DataPerpanjangMotor") {
+            DataPerpanjangMotorScreen(navController)
         }
     }
 }

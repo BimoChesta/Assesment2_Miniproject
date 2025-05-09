@@ -20,14 +20,15 @@ import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.unit.dp
 import coil.compose.rememberAsyncImagePainter
 import android.widget.Toast
+import androidx.compose.ui.res.painterResource
 import androidx.navigation.NavHostController
+import com.bimo0064.miniproject2.R
 import com.bimo0064.miniproject2.model.DataPerpanjangMotor
 
 @Composable
 fun PerpanjangMotorScreen(navController: NavHostController) {
-    var name by remember { mutableStateOf("") }
-    var selectedRoom by remember { mutableStateOf("1") }
-    var selectedMonth by remember { mutableStateOf("Januari") }
+    var selectedMotor by remember { mutableStateOf("Motor Beat") }
+    var selectedTanggal by remember { mutableStateOf("1") }
     var imageUri by remember { mutableStateOf<Uri?>(null) }
 
     val context = LocalContext.current
@@ -35,14 +36,11 @@ fun PerpanjangMotorScreen(navController: NavHostController) {
         contract = ActivityResultContracts.GetContent()
     ) { uri: Uri? -> imageUri = uri }
 
-    var expandedRoom by remember { mutableStateOf(false) }
-    var expandedMonth by remember { mutableStateOf(false) }
+    var expandedMotor by remember { mutableStateOf(false) }
+    var expandedTanggal by remember { mutableStateOf(false) }
 
-    val roomOptions = (1..12).map { it.toString() }
-    val monthOptions = listOf(
-        "Januari", "Februari", "Maret", "April", "Mei", "Juni",
-        "Juli", "Agustus", "September", "Oktober", "November", "Desember"
-    )
+    val motorOptions = listOf("Motor Beat", "Motor Scoopy", "Motor Aerox", "Motor Vespa")
+    val tanggalOptions = (1..20).map { it.toString() }
 
     Column(
         modifier = Modifier
@@ -51,39 +49,42 @@ fun PerpanjangMotorScreen(navController: NavHostController) {
             .verticalScroll(rememberScrollState()),
         verticalArrangement = Arrangement.spacedBy(16.dp)
     ) {
-        Text("Perpanjang Motor", style = MaterialTheme.typography.headlineSmall)
-
-        OutlinedTextField(
-            value = name,
-            onValueChange = { name = it },
-            label = { Text("Nama") },
-            modifier = Modifier.fillMaxWidth()
+        Text("Scan QR untuk Perpanjang", style = MaterialTheme.typography.titleMedium)
+        Image(
+            painter = painterResource(id = R.drawable.scan),
+            contentDescription = "QR Code",
+            modifier = Modifier
+                .fillMaxWidth()
+                .height(150.dp),
+            contentScale = ContentScale.Fit
         )
+
+        Text("Formulir Perpanjang", style = MaterialTheme.typography.headlineSmall)
 
         Box {
             OutlinedTextField(
-                value = selectedRoom,
+                value = selectedMotor,
                 onValueChange = {},
                 readOnly = true,
-                label = { Text("Pilih Kamar") },
+                label = { Text("Pilih Motor") },
                 modifier = Modifier.fillMaxWidth(),
                 trailingIcon = {
-                    IconButton(onClick = { expandedRoom = true }) {
+                    IconButton(onClick = { expandedMotor = true }) {
                         Icon(imageVector = Icons.Filled.ArrowDropDown, contentDescription = null)
                     }
                 }
             )
 
             DropdownMenu(
-                expanded = expandedRoom,
-                onDismissRequest = { expandedRoom = false }
+                expanded = expandedMotor,
+                onDismissRequest = { expandedMotor = false }
             ) {
-                roomOptions.forEach { room ->
+                motorOptions.forEach { motor ->
                     DropdownMenuItem(
-                        text = { Text("Kamar $room") },
+                        text = { Text(motor) },
                         onClick = {
-                            selectedRoom = room
-                            expandedRoom = false
+                            selectedMotor = motor
+                            expandedMotor = false
                         }
                     )
                 }
@@ -92,28 +93,28 @@ fun PerpanjangMotorScreen(navController: NavHostController) {
 
         Box {
             OutlinedTextField(
-                value = selectedMonth,
+                value = selectedTanggal,
                 onValueChange = {},
                 readOnly = true,
-                label = { Text("Pilih Bulan") },
+                label = { Text("Pilih Tanggal Perpanjang") },
                 modifier = Modifier.fillMaxWidth(),
                 trailingIcon = {
-                    IconButton(onClick = { expandedMonth = true }) {
+                    IconButton(onClick = { expandedTanggal = true }) {
                         Icon(imageVector = Icons.Filled.ArrowDropDown, contentDescription = null)
                     }
                 }
             )
 
             DropdownMenu(
-                expanded = expandedMonth,
-                onDismissRequest = { expandedMonth = false }
+                expanded = expandedTanggal,
+                onDismissRequest = { expandedTanggal = false }
             ) {
-                monthOptions.forEach { month ->
+                tanggalOptions.forEach { tanggal ->
                     DropdownMenuItem(
-                        text = { Text(month) },
+                        text = { Text("Tanggal $tanggal") },
                         onClick = {
-                            selectedMonth = month
-                            expandedMonth = false
+                            selectedTanggal = tanggal
+                            expandedTanggal = false
                         }
                     )
                 }
@@ -148,18 +149,17 @@ fun PerpanjangMotorScreen(navController: NavHostController) {
         Divider()
 
         Text("Data yang Diisi:", style = MaterialTheme.typography.titleMedium)
-        Text("Nama: $name")
-        Text("Kamar: $selectedRoom")
-        Text("Bulan: $selectedMonth")
+        Text("Motor: $selectedMotor")
+        Text("Tanggal: $selectedTanggal")
         Text("Gambar: ${imageUri?.lastPathSegment ?: "Belum dipilih"}")
 
         Button(onClick = {
-            if (name.isNotEmpty() && imageUri != null) {
+            if (imageUri != null) {
                 val data = DataPerpanjangMotor(
-                    name,
-                    selectedRoom,
-                    selectedMonth,
-                    imageUri?.toString()
+                    name = selectedMotor,
+                    room = selectedMotor,
+                    month = selectedTanggal,
+                    imageUri = imageUri?.toString()
                 )
 
                 navController.currentBackStackEntry
@@ -167,11 +167,11 @@ fun PerpanjangMotorScreen(navController: NavHostController) {
                     ?.set("submittedData", data)
 
                 Toast.makeText(context, "Data telah tercatat!", Toast.LENGTH_SHORT).show()
-                navController.navigate("dataPerpanjangKost")
+                navController.navigate("DataPerpanjangMotor")
             } else {
                 Toast.makeText(
                     context,
-                    "Tolong isi semua data dan unggah gambar!",
+                    "Tolong unggah gambar bukti!",
                     Toast.LENGTH_SHORT
                 ).show()
             }

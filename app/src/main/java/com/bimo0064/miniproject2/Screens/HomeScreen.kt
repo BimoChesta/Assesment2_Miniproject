@@ -17,24 +17,19 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
-import androidx.compose.ui.unit.sp
 import androidx.navigation.NavHostController
 import com.bimo0064.miniproject2.R
 import com.bimo0064.miniproject2.data.DataStoreManager
 import com.bimo0064.miniproject2.model.User
-import kotlinx.coroutines.launch
 
 @Composable
 fun HomeScreen(
     navController: NavHostController,
     dataStoreManager: DataStoreManager
 ) {
-    var saldo by remember { mutableIntStateOf(0) }
-
     var user by remember { mutableStateOf<User?>(null) }
 
     LaunchedEffect(Unit) {
-        saldo = dataStoreManager.loadBalance()
         user = dataStoreManager.loadUser()
     }
 
@@ -49,32 +44,13 @@ fun HomeScreen(
             horizontalAlignment = Alignment.CenterHorizontally,
             verticalArrangement = Arrangement.spacedBy(16.dp)
         ) {
-            // Bagian Atas: Selamat Datang dan Saldo
-            Column(
-                horizontalAlignment = Alignment.Start,
-                modifier = Modifier.fillMaxWidth()
-            ) {
-                Text(
-                    text = "Selamat Datang,",
-                    style = MaterialTheme.typography.bodyLarge,
-                    color = Color.Gray
-                )
-                Text(
-                    text = userName.value,
-                    style = MaterialTheme.typography.headlineMedium.copy(
-                        fontWeight = FontWeight.Bold
-                    )
-                )
-            }
 
             Card(
                 shape = RoundedCornerShape(16.dp),
                 modifier = Modifier
                     .fillMaxWidth()
                     .shadow(4.dp, RoundedCornerShape(16.dp)),
-                colors = CardDefaults.cardColors(
-                    containerColor = Color.White,
-                )
+                colors = CardDefaults.cardColors(containerColor = Color.White)
             ) {
                 Row(
                     modifier = Modifier
@@ -82,27 +58,10 @@ fun HomeScreen(
                         .padding(16.dp),
                     verticalAlignment = Alignment.CenterVertically
                 ) {
-                    Image(
-                        painter = painterResource(id = R.drawable.dompet),
-                        contentDescription = "Saldo Icon",
-                        modifier = Modifier.size(48.dp)
-                    )
                     Spacer(modifier = Modifier.width(16.dp))
-                    Column {
-                        Text(
-                            text = "Uang kas",
-                            style = MaterialTheme.typography.titleMedium,
-                            fontWeight = FontWeight.Bold
-                        )
-                        Text(
-                            text = "Rp. $saldo",
-                            style = MaterialTheme.typography.bodyLarge
-                        )
-                    }
                 }
             }
 
-            // Menu Grid
             LazyVerticalGrid(
                 columns = GridCells.Fixed(3),
                 verticalArrangement = Arrangement.spacedBy(8.dp),
@@ -110,8 +69,8 @@ fun HomeScreen(
                 modifier = Modifier.height(200.dp)
             ) {
                 item { MenuIcon(R.drawable.aturan, "Aturan", navController, "aturan") }
-                item { MenuIcon(R.drawable.perpanjangmotor, "Perpanjang Motor", navController, "perpanjangMotor") }
-                item { MenuIcon(R.drawable.informasi, "Informasi Motor", navController, "informasi") }
+                item { MenuIcon(R.drawable.perpanjangkost, "Perpanjang Motor", navController, "perpanjangMotor") }
+                item { MenuIcon(R.drawable.home, "Informasi Motor", navController, "informasi") }
             }
 
             Column(
@@ -136,7 +95,6 @@ fun HomeScreen(
                     color = Color.Gray
                 )
             }
-
 
             Box(
                 contentAlignment = Alignment.BottomEnd,
